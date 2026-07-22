@@ -18,4 +18,4 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q ct_denoising train.py infer.py
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
