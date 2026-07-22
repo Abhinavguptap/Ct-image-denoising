@@ -25,3 +25,10 @@ The original repository does not document the source, collection process, patien
 ## Recommended next dataset
 
 For credible research, replace this sample with a licensed, de-identified low-dose CT benchmark containing aligned normal-dose/low-dose data. Split by patient—not slice—and document acquisition protocols, preprocessing, registration, exclusions, and ethics/licensing constraints.
+## Source and provenance
+
+The original source and redistribution licence of the demonstration images could not be verified. The repository owner did not collect the images directly and does not claim ownership of them.
+
+The images are retained temporarily to document the original educational prototype. They must not be reused, redistributed or treated as a clinical dataset without independently verifying their source, licence, de-identification status and permitted use.
+
+A future version of this project should replace these files with samples from a clearly licensed and de-identified public CT benchmark.
