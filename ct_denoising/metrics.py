@@ -1,51 +1,92 @@
-"""Framework-independent image quality metrics for normalized grayscale images."""
+"""Standard image-quality metrics for normalized grayscale images."""
 
 from __future__ import annotations
 
 import math
 
 import numpy as np
+from skimage.metrics import structural_similarity
 
 
 def mse(reference: np.ndarray, estimate: np.ndarray) -> float:
+    """Calculate mean squared error. Lower values are better."""
     _validate_pair(reference, estimate)
-    return float(np.mean((reference.astype(np.float64) - estimate.astype(np.float64)) ** 2))
+
+    reference_float = reference.astype(np.float64)
+    estimate_float = estimate.astype(np.float64)
+
+    return float(np.mean((reference_float - estimate_float) ** 2))
 
 
-def psnr(reference: np.ndarray, estimate: np.ndarray, data_range: float = 1.0) -> float:
+def psnr(
+    reference: np.ndarray,
+    estimate: np.ndarray,
+    data_range: float = 1.0,
+) -> float:
+    """Calculate peak signal-to-noise ratio in decibels."""
     error = mse(reference, estimate)
+
     if error == 0.0:
         return float("inf")
+
     return float(10.0 * math.log10((data_range**2) / error))
 
 
-def ssim(reference: np.ndarray, estimate: np.ndarray, data_range: float = 1.0) -> float:
-    """Compute global SSIM without an additional runtime dependency.
-
-    Global SSIM is deterministic and adequate for experiment comparison. A
-    production imaging study should additionally report windowed/multiscale SSIM.
-    """
+def ssim(
+    reference: np.ndarray,
+    estimate: np.ndarray,
+    data_range: float = 1.0,
+) -> float:
+    """Calculate standard windowed structural similarity."""
     _validate_pair(reference, estimate)
-    x = reference.astype(np.float64)
-    y = estimate.astype(np.float64)
-    c1 = (0.01 * data_range) ** 2
-    c2 = (0.03 * data_range) ** 2
-    mean_x, mean_y = float(x.mean()), float(y.mean())
-    var_x, var_y = float(x.var()), float(y.var())
-    covariance = float(np.mean((x - mean_x) * (y - mean_y)))
-    numerator = (2 * mean_x * mean_y + c1) * (2 * covariance + c2)
-    denominator = (mean_x**2 + mean_y**2 + c1) * (var_x + var_y + c2)
-    return float(numerator / denominator)
+
+    reference_float = reference.astype(np.float64)
+    estimate_float = estimate.astype(np.float64)
+
+    return float(
+        structural_similarity(
+            reference_float,
+            estimate_float,
+            data_range=data_range,
+            gaussian_weights=True,
+            sigma=1.5,
+            use_sample_covariance=False,
+        )
+    )
 
 
-def evaluate(reference: np.ndarray, estimate: np.ndarray) -> dict[str, float]:
-    return {"mse": mse(reference, estimate), "psnr_db": psnr(reference, estimate), "ssim": ssim(reference, estimate)}
+def evaluate(
+    reference: np.ndarray,
+    estimate: np.ndarray,
+) -> dict[str, float]:
+    """Calculate all supported image-quality metrics."""
+    return {
+        "mse": mse(reference, estimate),
+        "psnr_db": psnr(reference, estimate),
+        "ssim": ssim(reference, estimate),
+    }
 
 
-def _validate_pair(reference: np.ndarray, estimate: np.ndarray) -> None:
+def _validate_pair(
+    reference: np.ndarray,
+    estimate: np.ndarray,
+) -> None:
     if reference.shape != estimate.shape:
-        raise ValueError(f"Image shapes must match, got {reference.shape} and {estimate.shape}")
+        raise ValueError(
+            f"Image shapes must match, got "
+            f"{reference.shape} and {estimate.shape}"
+        )
+
     if reference.size == 0:
         raise ValueError("Images cannot be empty")
-    if not (np.isfinite(reference).all() and np.isfinite(estimate).all()):
+
+    if reference.ndim != 2:
+        raise ValueError(
+            f"Expected 2D grayscale images, got shape {reference.shape}"
+        )
+
+    if not (
+        np.isfinite(reference).all()
+        and np.isfinite(estimate).all()
+    ):
         raise ValueError("Images must contain only finite values")
