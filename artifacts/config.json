@@ -1,0 +1,28 @@
+{
+  "clean_dir": "Clean",
+  "output_dir": "artifacts",
+  "epochs": 50,
+  "batch_size": 16,
+  "patch_size": 64,
+  "patches_per_image": 128,
+  "noise_sigma": 25.0,
+  "depth": 8,
+  "filters": 32,
+  "learning_rate": 0.0005,
+  "seed": 42,
+  "train_sources": [
+    "img4.png",
+    "img1.png",
+    "img8.jpg",
+    "img3.png",
+    "img5.png",
+    "img7.jpg"
+  ],
+  "validation_sources": [
+    "img2.png"
+  ],
+  "test_sources": [
+    "img6.png",
+    "img9.jpg"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "evaluation_protocol": "Held-out source images with seeded Gaussian noise sigma=25.0/255",
+  "per_image": [
+    {
+      "image": "img6.png",
+      "noisy_baseline": {
+        "mse": 0.00961702265660654,
+        "psnr_db": 20.16959360804516,
+        "ssim": 0.8834198923814245
+      },
+      "dncnn": {
+        "mse": 0.0007682227016316239,
+        "psnr_db": 31.145128632113668,
+        "ssim": 0.9895687513592569
+      }
+    },
+    {
+      "image": "img9.jpg",
+      "noisy_baseline": {
+        "mse": 0.007633950196802481,
+        "psnr_db": 21.17250677675421,
+        "ssim": 0.9241401574907481
+      },
+      "dncnn": {
+        "mse": 0.0011188944300191833,
+        "psnr_db": 29.512108881124036,
+        "ssim": 0.9885206785259171
+      }
+    }
+  ],
+  "aggregate": {
+    "noisy_baseline": {
+      "mse": 0.00862548642670451,
+      "psnr_db": 20.671050192399687,
+      "ssim": 0.9037800249360863
+    },
+    "dncnn": {
+      "mse": 0.0009435585658254036,
+      "psnr_db": 30.32861875661885,
+      "ssim": 0.9890447149425869
+    },
+    "improvement": {
+      "psnr_db": 9.657568564219165,
+      "ssim": 0.08526469000650061,
+      "mse_reduction_percent": 89.06080748206679
+    }
+  }
+}
