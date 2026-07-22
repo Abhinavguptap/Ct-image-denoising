@@ -14,7 +14,7 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install lightweight test dependencies
-        run: pip install "numpy>=1.26,<2.0" "opencv-python-headless>=4.9,<5" "pytest>=8,<9"
+        run: pip install "numpy>=1.26,<2.0" "opencv-python-headless>=4.9,<5" "scikit-image>=0.23,<1" "pytest>=8,<9"
       - name: Compile Python sources
         run: python -m compileall -q ct_denoising train.py infer.py
       - name: Run tests
