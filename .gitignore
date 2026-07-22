@@ -1,7 +1,30 @@
+# Python environments
 .venv/
+venv/
+env/
+
+# Python cache files
 __pycache__/
-.pytest_cache/
 *.py[cod]
-artifacts/
-prediction.png
+.pytest_cache/
+
+# Local IDE and operating-system files
+.vscode/
+.idea/
 .DS_Store
+Thumbs.db
+
+# Local inference output
+prediction.png
+
+# Ignore new experiment outputs by default
+artifacts/*
+
+# Keep verified reproducibility evidence
+!artifacts/config.json
+!artifacts/metrics.json
+!artifacts/training_history.csv
+!artifacts/training_curves.png
+!artifacts/best_model.keras
+!artifacts/comparisons/
+!artifacts/comparisons/*.png
